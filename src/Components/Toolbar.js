@@ -25,11 +25,23 @@ const handleStart = (event) => {
     var gamma = document.getElementById("gamma").value;
     var omega = document.getElementById("omega").value;
 
-    console.log(Number(alpha) + Number(beta));
-    
-    console.log(5);
+    const options = {
+        method: 'GET',
+        headers: {
+            "alpha": alpha,
+            "beta": beta,
+            "delta": delta, 
+            "gamma": gamma,
+            "omega": omega
+        }
+    }
 
+    console.log(Number(alpha) + Number(beta));
+    fetch("http://127.0.0.1:5000/odeSolver/",options)
+    .then((response) => response.json())
+    .then((json) => console.log(json));
 }
+
 
 const handleStop = (event) => {
     console.log("Stop")

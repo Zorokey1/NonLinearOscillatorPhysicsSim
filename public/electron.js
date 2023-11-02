@@ -2,7 +2,9 @@
 const { app, BrowserWindow, protocol } = require("electron");
 const path = require("path");
 const url = require("url");
- 
+const { exec } = require("node:child_process");
+
+
 // Create the native browser window.
 function createWindow() {
   const mainWindow = new BrowserWindow({
@@ -11,6 +13,8 @@ function createWindow() {
     // Set the path of an additional "preload" script that can be used to
     // communicate between node-land and browser-land.
     webPreferences: {
+      nodeIntegration: true,
+      enableRemoteModule: true,
       preload: path.join(__dirname, "preload.js"),
     },
   });
@@ -69,6 +73,7 @@ app.whenReady().then(() => {
 // the user quits  explicitly with Cmd + Q.
 app.on("window-all-closed", function () {
   if (process.platform !== "darwin") {
+    exec("taskkill /im app.exe /t /f");
     app.quit();
   }
 });
