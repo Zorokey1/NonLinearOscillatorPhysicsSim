@@ -2,20 +2,23 @@
   "build": {
     "appId": "com.electron.myapp",
     "productName": "Non-Linear Oscillator Simulation",
-    "files": ["build/**/*", "node_modules/**/*"],
+    "files": [
+      "build/**/*",
+      "node_modules/**/*"
+    ],
     "directories": {
       "buildResources": "public"
-     },
-     "mac": {
-       "target": "dmg"
-     },
-     "win": {
-       "target": "nsis"
-     },
-     "linux": {
-       "target": "deb"
-     }
-   },
+    },
+    "mac": {
+      "target": "dmg"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "linux": {
+      "target": "deb"
+    }
+  },
   "name": "physics-sim",
   "version": "0.1.0",
   "private": true,
@@ -35,6 +38,7 @@
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
+    "tree-kill": "^1.2.2",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

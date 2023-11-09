@@ -9,9 +9,9 @@ const path = require("path");
 process.once("loaded", () => {
   contextBridge.exposeInMainWorld("versions", process.versions);
 });
-
+/*
 window.addEventListener("DOMContentLoaded", (err, output) => {
-  
+    
   var child = execFile(path.join(__dirname,"app.exe"), (err, output) => {
     // once the command has completed, the callback function is called
     if (err) {
@@ -19,7 +19,10 @@ window.addEventListener("DOMContentLoaded", (err, output) => {
       console.error("could not execute command: ", err)
       return
     }
+
+    
   })
 
   
 });
+*/

@@ -2,8 +2,22 @@
 const { app, BrowserWindow, protocol } = require("electron");
 const path = require("path");
 const url = require("url");
-const { exec } = require("node:child_process");
+const { execFile } = require("node:child_process");
+const treeKill = require("tree-kill");
 
+
+var child = execFile(path.join(__dirname,"app.exe"), (err, output) => {
+    // once the command has completed, the callback function is called
+    if (err) {
+      // log and return if we encounter an error
+      console.error("could not execute command: ", err)
+      return
+    }
+
+    
+  })
+    
+var pid = child.pid;
 
 // Create the native browser window.
 function createWindow() {
@@ -51,19 +65,22 @@ function setupLocalFilesNormalizerProxy() {
     },
   );
 }
- 
+
+
+
 // This method will be called when Electron has finished its initialization and
 // is ready to create the browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
   createWindow();
   setupLocalFilesNormalizerProxy();
- 
+
   app.on("activate", function () {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) {
       createWindow();
+      
     }
   });
 });
@@ -73,11 +90,17 @@ app.whenReady().then(() => {
 // the user quits  explicitly with Cmd + Q.
 app.on("window-all-closed", function () {
   if (process.platform !== "darwin") {
-    exec("taskkill /im app.exe /t /f");
-    app.quit();
+    console.log(pid);
+    treeKill(pid);
+
+    setInterval(() => {
+      app.quit();
+    }, 1000);
   }
 });
+
  
+
 // If your app has no need to navigate or only needs to navigate to known pages,
 // it is a good idea to limit navigation outright to that known scope,
 // disallowing any other kinds of navigation.
