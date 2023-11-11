@@ -1,27 +1,43 @@
 import { Scatter } from 'react-chartjs-2';
-import { Chart as ChartJS, LineElement, PointElement, LinearScale, Title } from 'chart.js';
+import { useEffect, useState } from 'react';
 import { useRef } from 'react';
+import { Chart as ChartJS, LineElement, PointElement, LinearScale, Title } from 'chart.js';
 ChartJS.register(LineElement, PointElement, LinearScale, Title);
 
-export default function Graph(){
+export default function Graph({points}){
     const chartRef = useRef(null);
-
-    const state = {
+    const [scatterOptions, setScatterOptions] = useState({
         datasets: [
             {
-                data: [{x:0, y: 0}, {x:2, y:5}, {x:5, y:7}],
+                data: points,
                 showLine: true
             }
         ]
         
-    }
+    });
+
+    
+    useEffect(()=> {
+        const myChartRef = chartRef.current;
+        console.log(points);
+        setScatterOptions({
+            datasets: [
+                {
+                    data: points,
+                    showLine: true
+                }
+            ]
+        })
+        myChartRef.update();
+    }, [points]);
+    
 
     return (
         <div className="ChartContainer">
             <Scatter
-                ref={chartRef}
                 className="Chart"
-                data={state}
+                data={scatterOptions}
+                ref={chartRef}
                 id="scatterPlot"
             />
            <script type="module" src="./Components/Graph.js"></script> 
