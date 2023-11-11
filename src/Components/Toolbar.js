@@ -34,7 +34,7 @@ export default function Toolbar({ points, setPoints}) {
       .then((json) => {
         console.log(json);
         //console.log(handleOdeSolve);
-        points = [json[1], json[2]];
+        points = points.concat(json);
         console.log(points);
         console.log("Toolbar");
         setPoints(points);
