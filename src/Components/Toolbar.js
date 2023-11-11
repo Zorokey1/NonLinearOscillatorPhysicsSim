@@ -43,7 +43,8 @@ export default function Toolbar({ points, setPoints}) {
   };
 
   const handleStop = (event) => {
-    console.log("Stop");
+    points = [];
+    setPoints(points);
   };
 
   const typing = (event) => {
