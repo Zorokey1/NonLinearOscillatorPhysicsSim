@@ -2,8 +2,15 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
 
-export default function Toolbar({ points, setPoints, finalCondition, setFinalCondition }) {
-    const handleStart = (event) => {
+export default function Toolbar({
+    points,
+    setPoints,
+    finalCondition,
+    setFinalCondition,
+    intervalID,
+    setIntervalID,
+}) {
+    const handleStart = async (event) => {
         event.preventDefault();
         const alpha = document.getElementById("alpha").value;
         const beta = document.getElementById("beta").value;
@@ -27,63 +34,46 @@ export default function Toolbar({ points, setPoints, finalCondition, setFinalCon
                 tf: 10,
             },
         };
+        
+        const response = await fetch(
+            "http://127.0.0.1:5000/odeSolver/",
+            options
+        );
+        const graphData = await response.json();
+        finalCondition = graphData.finalCondition;
+        points = points.concat(graphData.data);
+        console.log("Toolbar");
+        options.headers.to += 10;
+        options.headers.tf += 10;
+        options.headers.Xo = finalCondition.x;
+        options.headers.Vo = finalCondition.y;
+        setPoints(points);
+        setFinalCondition(finalCondition);
 
-        console.log(Number(alpha) + Number(beta));
-        fetch("http://127.0.0.1:5000/odeSolver/", options)
-            .then((response) => response.json())
-            .then((json) => {
-                console.log(json);
-                //console.log(handleOdeSolve);
-                finalCondition = json.finalCondition;
-                points = points.concat(json.data);
-                console.log("Toolbar");
-                setPoints(points);
-                setFinalCondition(finalCondition);
-            });
+        async function updateGraph() {
+            const response = await fetch(
+                "http://127.0.0.1:5000/odeSolver/",
+                options
+            );
+            const graphData = await response.json();
+            finalCondition = graphData.finalCondition;
+            points = points.concat(graphData.data);
+            console.log("Toolbar");
+            options.headers.to += 10;
+            options.headers.tf += 10;
+            options.headers.Xo = finalCondition.x;
+            options.headers.Vo = finalCondition.y;
+            setPoints(points);
+            setFinalCondition(finalCondition);
+        }
+
+        setIntervalID(setInterval(updateGraph, 3000));
     };
 
-    const handleStop = (event) => {
-    
-        event.preventDefault();
-        const alpha = document.getElementById("alpha").value;
-        const beta = document.getElementById("beta").value;
-        const delta = document.getElementById("delta").value;
-        const gamma = document.getElementById("gamma").value;
-        const omega = document.getElementById("omega").value;
-        const Xo = document.getElementById("initialX").value;
-        const Vo = document.getElementById("initialV").value;
-
-        const options = {
-            method: "GET",
-            headers: {
-                alpha: alpha,
-                beta: beta,
-                delta: delta,
-                gamma: gamma,
-                omega: omega,
-                Xo: Number(finalCondition.x),
-                Vo: Number(finalCondition.y),
-                to: 10,
-                tf: 20,
-            },
-        };
-
-        console.log(Number(alpha) + Number(beta));
-        fetch("http://127.0.0.1:5000/odeSolver/", options)
-            .then((response) => response.json())
-            .then((json) => {
-                console.log(json);
-                
-                points = points.concat(json.data);
-                finalCondition = json.finalCondition;
-                console.log("Toolbar");
-                setPoints(points);
-                setFinalCondition(finalCondition);
-            });
-        /*
+    const handleStop = async (event) => {
         points = [];
         setPoints(points);
-        */
+        clearInterval(intervalID);
     };
 
     const typing = (event) => {

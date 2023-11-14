@@ -29,7 +29,6 @@ export default function Graph({ points }) {
                 },
             ],
         });
-        
     }, [points]);
 
     return (
