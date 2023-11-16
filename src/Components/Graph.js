@@ -15,9 +15,15 @@ export default function Graph({ points }) {
             {
                 data: points,
                 showLine: true,
+                pointStyle: false,
+                backgroundColor: '#89CFF0'
             },
         ],
     });
+
+    const options = {
+        animation: false
+    }
 
     useEffect(() => {
         console.log(points);
@@ -26,6 +32,8 @@ export default function Graph({ points }) {
                 {
                     data: points,
                     showLine: true,
+                    pointStyle: false,
+                    backgroundColor: '#89CFF0'
                 },
             ],
         });
@@ -33,7 +41,7 @@ export default function Graph({ points }) {
 
     return (
         <div className="ChartContainer">
-            <Scatter className="Chart" data={scatterOptions} id="scatterPlot" />
+            <Scatter className="Chart" data={scatterOptions} options = {options}id="scatterPlot" />
             <script type="module" src="./Components/Graph.js"></script>
         </div>
     );

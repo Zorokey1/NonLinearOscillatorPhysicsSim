@@ -7,6 +7,7 @@ export default function App() {
     const [points, setPoints] = useState([]);
     const [finalCondition, setFinalCondition] = useState({});
     const [intervalID, setIntervalID] = useState(null);
+    const [dataLoopID, setDataLoopID] = useState(null);
 
     return (
         <div className="App">
@@ -19,6 +20,8 @@ export default function App() {
                 setFinalCondition={setFinalCondition}
                 intervalID = {intervalID}
                 setIntervalID = {setIntervalID}
+                dataLoopID = {dataLoopID}
+                setDataLoopID = {setDataLoopID}
             />
         </div>
     );

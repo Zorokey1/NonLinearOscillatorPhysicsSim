@@ -9,6 +9,8 @@ export default function Toolbar({
     setFinalCondition,
     intervalID,
     setIntervalID,
+    dataLoopID,
+    setDataLoopID,
 }) {
     const handleStart = async (event) => {
         event.preventDefault();
@@ -34,21 +36,31 @@ export default function Toolbar({
                 tf: 10,
             },
         };
-        
+
         const response = await fetch(
             "http://127.0.0.1:5000/odeSolver/",
             options
         );
         const graphData = await response.json();
         finalCondition = graphData.finalCondition;
-        points = points.concat(graphData.data);
+        setFinalCondition(finalCondition);
+        let i = 0;
+        setDataLoopID(
+            setInterval(() => {
+                if (i >= graphData.data.length) {
+                    clearInterval(dataLoopID);
+                    return;
+                }
+                points = points.concat(graphData.data[i]);
+                setPoints(points);
+                i++;
+            }, 100)
+        );
         console.log("Toolbar");
         options.headers.to += 10;
         options.headers.tf += 10;
         options.headers.Xo = finalCondition.x;
         options.headers.Vo = finalCondition.y;
-        setPoints(points);
-        setFinalCondition(finalCondition);
 
         async function updateGraph() {
             const response = await fetch(
@@ -57,27 +69,43 @@ export default function Toolbar({
             );
             const graphData = await response.json();
             finalCondition = graphData.finalCondition;
-            points = points.concat(graphData.data);
+            setFinalCondition(finalCondition);
+            let i = 0;
+            setDataLoopID(
+                setInterval(() => {
+                    if (i >= graphData.data.length) {
+                        clearInterval(dataLoopID);
+                        return;
+                    }
+                    points = points.concat(graphData.data[i]);
+                    setPoints(points);
+                    i++;
+                }, 100)
+            );
             console.log("Toolbar");
             options.headers.to += 10;
             options.headers.tf += 10;
             options.headers.Xo = finalCondition.x;
             options.headers.Vo = finalCondition.y;
-            setPoints(points);
-            setFinalCondition(finalCondition);
         }
 
-        setIntervalID(setInterval(updateGraph, 3000));
+        setIntervalID(setInterval(updateGraph, 10000));
     };
 
     const handleStop = async (event) => {
         points = [];
         setPoints(points);
         clearInterval(intervalID);
+        clearInterval(dataLoopID);
     };
 
     const typing = (event) => {
-        if (isNaN(event.key) && event.key.length === 1 && event.key !== ".") {
+        if (
+            isNaN(event.key) &&
+            event.key.length === 1 &&
+            event.key !== "." &&
+            event.key !== "-"
+        ) {
             event.preventDefault();
         }
     };
