@@ -1,5 +1,6 @@
 import Graph from "./Components/Graph";
 import Toolbar from "./Components/Toolbar";
+import Description from "./Components/Description";
 import "./App.css";
 import { useState } from "react";
 
@@ -23,6 +24,7 @@ export default function App() {
                 dataLoopID = {dataLoopID}
                 setDataLoopID = {setDataLoopID}
             />
+            <Description/>
         </div>
     );
 }

@@ -10,24 +10,35 @@ import {
 ChartJS.register(LineElement, PointElement, LinearScale, Title);
 
 export default function Graph({ points }) {
-    const [scatterOptions, setScatterOptions] = useState({
+    const [scatterData, setScatterData] = useState({
         datasets: [
             {
                 data: points,
                 showLine: true,
                 pointStyle: false,
-                backgroundColor: '#89CFF0'
+                borderColor: '#89CFF0',
+                
             },
         ],
     });
 
     const options = {
-        animation: false
+        animation: {
+            duration: 0
+        },
+        scales: {
+            x: {
+                text: "Time (s)"
+            }, 
+            y: {
+                text: "Position (m)"
+            }
+        }
     }
 
     useEffect(() => {
         console.log(points);
-        setScatterOptions({
+        setScatterData({
             datasets: [
                 {
                     data: points,
@@ -41,7 +52,7 @@ export default function Graph({ points }) {
 
     return (
         <div className="ChartContainer">
-            <Scatter className="Chart" data={scatterOptions} options = {options}id="scatterPlot" />
+            <Scatter className="Chart" data={scatterData} options = {options} id="scatterPlot"/>
             <script type="module" src="./Components/Graph.js"></script>
         </div>
     );

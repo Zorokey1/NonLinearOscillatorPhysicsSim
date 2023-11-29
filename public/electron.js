@@ -11,13 +11,14 @@ var child = execFile(path.join(__dirname,"app.exe"), (err, output) => {
     if (err) {
       // log and return if we encounter an error
       console.error("could not execute command: ", err)
+
       return
     }
 
     
   })
-    
-var pid = child.pid;
+  
+pid = child.pid
 
 // Create the native browser window.
 function createWindow() {

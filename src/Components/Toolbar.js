@@ -161,22 +161,24 @@ export default function Toolbar({
                 variant="standard"
                 onKeyDown={typing}
             />
-            <Button
-                className="StartButton"
-                label="Start"
-                variant="contained"
-                onClick={handleStart}
-            >
-                Start
-            </Button>
-            <Button
-                className="StopButton"
-                label="Stop"
-                variant="contained"
-                onClick={handleStop}
-            >
-                Stop
-            </Button>
+            <Stack spacing={1} direction="column">
+                <Button
+                    className="StartButton"
+                    label="Start"
+                    variant="contained"
+                    onClick={handleStart}
+                >
+                    Start
+                </Button>
+                <Button
+                    className="StopButton"
+                    label="Stop"
+                    variant="contained"
+                    onClick={handleStop}
+                >
+                    Stop
+                </Button>
+            </Stack>
         </Stack>
     );
 }

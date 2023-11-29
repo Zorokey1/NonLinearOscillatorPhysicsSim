@@ -2,6 +2,8 @@
 
 .BadTitle {
     text-align: center;
+    font-size: 5vh;
+    margin: 0%;
 }
 
 .Toolbar {
@@ -24,4 +26,9 @@
     display: flex;
     flex-flow: row wrap;
     justify-content: center;
+}
+
+#DuffingEquation {
+    margin: 20px;
+    width: 50vw;
 }
