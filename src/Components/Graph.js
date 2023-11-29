@@ -10,41 +10,49 @@ import {
 ChartJS.register(LineElement, PointElement, LinearScale, Title);
 
 export default function Graph({ points }) {
-    const [scatterData, setScatterData] = useState({
+    const [scatterOptions, setScatterOptions] = useState({
         datasets: [
             {
                 data: points,
                 showLine: true,
                 pointStyle: false,
-                borderColor: '#89CFF0',
-                
+                borderColor: "#89CFF0",
+                label: "test",
             },
         ],
     });
 
     const options = {
         animation: {
-            duration: 0
+            duration: 0,
         },
         scales: {
             x: {
-                text: "Time (s)"
-            }, 
+                title: {
+                    display: true,
+                    text: "Time (s)",
+                }
+                
+            },
             y: {
-                text: "Position (m)"
-            }
-        }
-    }
+                title: {
+                    display: true,
+                    text: "Position (m)",
+                },
+            },
+        },
+    };
 
     useEffect(() => {
         console.log(points);
-        setScatterData({
+        setScatterOptions({
             datasets: [
                 {
                     data: points,
                     showLine: true,
                     pointStyle: false,
-                    backgroundColor: '#89CFF0'
+                    borderColor: "#89CFF0",
+                    label: "test",
                 },
             ],
         });
@@ -52,7 +60,12 @@ export default function Graph({ points }) {
 
     return (
         <div className="ChartContainer">
-            <Scatter className="Chart" data={scatterData} options = {options} id="scatterPlot"/>
+            <Scatter
+                className="Chart"
+                data={scatterOptions}
+                options={options}
+                id="scatterPlot"
+            />
             <script type="module" src="./Components/Graph.js"></script>
         </div>
     );
