@@ -9,7 +9,7 @@ import {
 } from "chart.js";
 ChartJS.register(LineElement, PointElement, LinearScale, Title);
 
-export default function Graph({ points, xAxis, yAxis }) {
+export default function Graph({ points, pointsRadius, xAxis, yAxis }) {
     const [scatterOptions, setScatterOptions] = useState({
         datasets: [
             {
@@ -18,6 +18,7 @@ export default function Graph({ points, xAxis, yAxis }) {
                 pointStyle: false,
                 borderColor: "#89CFF0",
                 label: "test",
+                pointRadius: pointsRadius
             },
         ],
     });
@@ -44,19 +45,17 @@ export default function Graph({ points, xAxis, yAxis }) {
     };
 
     useEffect(() => {
-        console.log(points);
         setScatterOptions({
             datasets: [
                 {
                     data: points,
                     showLine: true,
-                    pointStyle: false,
                     borderColor: "#89CFF0",
-                    label: "test",
+                    pointRadius: pointsRadius
                 },
             ],
         });
-    }, [points]);
+    }, [points, pointsRadius]);
 
     return (
         <div className="ChartContainer">

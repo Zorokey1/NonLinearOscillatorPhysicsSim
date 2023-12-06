@@ -10,12 +10,15 @@ export default function App() {
     const [finalCondition, setFinalCondition] = useState({});
     const [intervalID, setIntervalID] = useState(null);
     const [dataLoopID, setDataLoopID] = useState(null);
+    const [pointsRadius, setPointsRadius] = useState([5]);
+
 
     const [currentTabIndex, setTabIndex] = useState(0);
 
     const handleTabChange = (e, tabIndex) => {
         setTabIndex(tabIndex);
         setPoints([]);
+        setPointsRadius([5]);
         clearInterval(intervalID);
         clearInterval(dataLoopID);
         console.log(tabIndex);
@@ -29,8 +32,8 @@ export default function App() {
                 <Tab label="Phase Portrait" />
             </Tabs>
 
-            {currentTabIndex === 0 && (<Graph points={points} xAxis ={"Time (s)"} yAxis={"Position (m)"}/>)}
-            {currentTabIndex === 1 && (<Graph points={points} xAxis={"Position (m)"} yAxis={"Velocity (m/s)"}/>)}
+            {currentTabIndex === 0 && (<Graph points={points} pointsRadius={pointsRadius} xAxis ={"Time (s)"} yAxis={"Position (m)"}/>)}
+            {currentTabIndex === 1 && (<Graph points={points} pointsRadius={pointsRadius} xAxis={"Position (m)"} yAxis={"Velocity (m/s)"}/>)}
 
             <Toolbar
                 points={points}
@@ -42,6 +45,8 @@ export default function App() {
                 dataLoopID={dataLoopID}
                 setDataLoopID={setDataLoopID}
                 currentTabIndex={currentTabIndex}
+                pointsRadius={pointsRadius}
+                setPointsRadius={setPointsRadius}
             />
             <Description />
         </div>

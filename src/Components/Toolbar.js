@@ -11,7 +11,9 @@ export default function Toolbar({
     setIntervalID,
     dataLoopID,
     setDataLoopID,
-    currentTabIndex
+    pointsRadius,
+    setPointsRadius,
+    currentTabIndex,
 }) {
     const handleStart = async (event) => {
         event.preventDefault();
@@ -38,12 +40,11 @@ export default function Toolbar({
             },
         };
 
-        const url = ((currentTabIndex === 0) ? "http://127.0.0.1:5000/odeSolver/": "http://127.0.0.1:5000/phaseSolver/");
-        console.log(currentTabIndex);
-        const response = await fetch(
-            url,
-            options
-        );
+        const url =
+            currentTabIndex === 0
+                ? "http://127.0.0.1:5000/odeSolver/"
+                : "http://127.0.0.1:5000/phaseSolver/";
+        const response = await fetch(url, options);
         const graphData = await response.json();
         finalCondition = graphData.finalCondition;
         setFinalCondition(finalCondition);
@@ -55,21 +56,24 @@ export default function Toolbar({
                     return;
                 }
                 points = points.concat(graphData.data[i]);
+
+                if (points.length !== 1) {
+                    pointsRadius.unshift(0);
+                    console.log(pointsRadius);
+                    setPointsRadius(pointsRadius);
+                }
+
                 setPoints(points);
                 i++;
             }, 100)
         );
-        console.log("Toolbar");
         options.headers.to += 10;
         options.headers.tf += 10;
         options.headers.Xo = finalCondition.x;
         options.headers.Vo = finalCondition.y;
 
         async function updateGraph() {
-            const response = await fetch(
-                url,
-                options
-            );
+            const response = await fetch(url, options);
             const graphData = await response.json();
             finalCondition = graphData.finalCondition;
             setFinalCondition(finalCondition);
@@ -81,11 +85,15 @@ export default function Toolbar({
                         return;
                     }
                     points = points.concat(graphData.data[i]);
+                    if (points.length !== 1) {
+                        pointsRadius.unshift(0);
+                        console.log(pointsRadius);
+                        setPointsRadius(pointsRadius);
+                    }
                     setPoints(points);
                     i++;
                 }, 100)
             );
-            console.log("Toolbar");
             options.headers.to += 10;
             options.headers.tf += 10;
             options.headers.Xo = finalCondition.x;
@@ -97,7 +105,9 @@ export default function Toolbar({
 
     const handleStop = async (event) => {
         points = [];
+        pointsRadius = [5];
         setPoints(points);
+        setPointsRadius(pointsRadius);
         clearInterval(intervalID);
         clearInterval(dataLoopID);
     };
