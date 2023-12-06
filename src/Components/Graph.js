@@ -9,7 +9,7 @@ import {
 } from "chart.js";
 ChartJS.register(LineElement, PointElement, LinearScale, Title);
 
-export default function Graph({ points }) {
+export default function Graph({ points, xAxis, yAxis }) {
     const [scatterOptions, setScatterOptions] = useState({
         datasets: [
             {
@@ -30,14 +30,14 @@ export default function Graph({ points }) {
             x: {
                 title: {
                     display: true,
-                    text: "Time (s)",
+                    text: xAxis,
                 }
                 
             },
             y: {
                 title: {
                     display: true,
-                    text: "Position (m)",
+                    text: yAxis,
                 },
             },
         },

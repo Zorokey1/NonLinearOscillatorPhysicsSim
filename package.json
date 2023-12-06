@@ -1,6 +1,6 @@
 {
   "build": {
-    "appId": "com.electron.myapp",
+    "appId": "SunilPateel.NonLinearOscillator",
     "productName": "Non-Linear Oscillator Simulation",
     "files": [
       "build/**/*",
@@ -20,7 +20,7 @@
     }
   },
   "name": "physics-sim",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "author": "Sunil Pateel",
   "description": "Really cool simulation",

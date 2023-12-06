@@ -11,6 +11,7 @@ export default function Toolbar({
     setIntervalID,
     dataLoopID,
     setDataLoopID,
+    currentTabIndex
 }) {
     const handleStart = async (event) => {
         event.preventDefault();
@@ -37,8 +38,10 @@ export default function Toolbar({
             },
         };
 
+        const url = ((currentTabIndex === 0) ? "http://127.0.0.1:5000/odeSolver/": "http://127.0.0.1:5000/phaseSolver/");
+        console.log(currentTabIndex);
         const response = await fetch(
-            "http://127.0.0.1:5000/odeSolver/",
+            url,
             options
         );
         const graphData = await response.json();
@@ -64,7 +67,7 @@ export default function Toolbar({
 
         async function updateGraph() {
             const response = await fetch(
-                "http://127.0.0.1:5000/odeSolver/",
+                url,
                 options
             );
             const graphData = await response.json();
